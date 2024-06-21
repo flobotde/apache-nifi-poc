@@ -9,6 +9,9 @@ services:
       - NIFI_WEB_HTTPS_HOST=${NIFI_WEB_HTTPS_HOST}
       - SINGLE_USER_CREDENTIALS_USERNAME=${NIFI_USERNAME}
       - SINGLE_USER_CREDENTIALS_PASSWORD=${NIFI_PASSWORD}
+      - NIFI_KEYSTORE_PASSWORD=${NIFI_KEYSTORE_PASSWORD}
+      - NIFI_KEY_PASSWORD=${NIFI_KEY_PASSWORD}
+      - NIFI_TRUSTSTORE_PASSWORD=${NIFI_TRUSTSTORE_PASSWORD}
     volumes:
       - ./nifi/conf:/opt/nifi/nifi-current/conf
       - ./nifi/content_repository:/opt/nifi/nifi-current/content_repository
