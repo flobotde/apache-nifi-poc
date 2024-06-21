@@ -9,13 +9,6 @@ tasks:
       sudo chmod -R 755 nifi
       if [ ! -f .env ]; then
         cp .env.example .env
-      fi
-      export NIFI_WEB_HTTPS_HOST=$(gp url ${NIFI_WEB_HTTPS_PORT} | cut -d'/' -f3)
-      envsubst < ./nifi/conf/nifi.properties.template > ./nifi/conf/nifi.properties
-      sudo chown 1000:1000 ./nifi/conf/nifi.properties
-
-      if [ ! -f .env ]; then
-        cp .env.example .env
         # Für Gitpod: Verwende Gitpod Secret Variables
         if [ ! -z "$GITPOD_WORKSPACE_ID" ]; then
           echo "NIFI_WEB_HTTPS_PORT=${NIFI_WEB_HTTPS_PORT}" >> .env
@@ -35,6 +28,8 @@ tasks:
         export NIFI_WEB_HTTPS_HOST=localhost
       fi
       envsubst < ./nifi/conf/nifi.properties.template > ./nifi/conf/nifi.properties
+      sudo chown 1000:1000 ./nifi/conf/nifi.properties
+      sudo chmod 644 ./nifi/conf/nifi.properties
       docker-compose up
 
 ports:
