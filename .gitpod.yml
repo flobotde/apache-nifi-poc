@@ -1,17 +1,13 @@
 tasks:
-  - init: docker-compose pull
+  - init: |
+      mkdir -p ./nifi/conf
+      if [ ! -f ./nifi/conf/nifi.properties ]; then
+        echo "nifi.web.https.port=\${NIFI_WEB_HTTPS_PORT}" > ./nifi/conf/nifi.properties
+        echo "nifi.web.https.host=\${NIFI_WEB_HTTPS_HOST}" >> ./nifi/conf/nifi.properties
+        echo "nifi.security.user.login.identity.provider=single-user-provider" >> ./nifi/conf/nifi.properties
+        echo "nifi.security.user.authorizer=single-user-authorizer" >> ./nifi/conf/nifi.properties
+      fi
+      docker-compose pull
     command: |
-      # Erstelle .env-Datei aus Gitpod Secrets
-      echo "NIFI_WEB_HTTPS_PORT=${NIFI_WEB_HTTPS_PORT}" > .env
-      echo "NIFI_USERNAME=${NIFI_USERNAME}" >> .env
-      echo "NIFI_PASSWORD=${NIFI_PASSWORD}" >> .env
       export NIFI_WEB_HTTPS_HOST=$(gp url ${NIFI_WEB_HTTPS_PORT} | cut -d'/' -f3)
       docker-compose up
-
-ports:
-  - port: 8443
-    onOpen: open-browser
-
-vscode:
-  extensions:
-    - ms-azuretools.vscode-docker
