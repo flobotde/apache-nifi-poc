@@ -56,10 +56,10 @@ nifi/flowfile_repository/
 nifi/provenance_repository/
 nifi/state/
 
-# Ignore specific files in nifi/conf/
-nifi/conf/login-identity-providers.xml
-nifi/conf/authorizers.xml
-nifi/conf/bootstrap.conf
+# Ignore specific files in nifi/conf/, but not the directory itself
+nifi/conf/*
+!nifi/conf/bootstrap.conf
+!nifi/conf/nifi.properties.template
 
 # OS specific
 .DS_Store
