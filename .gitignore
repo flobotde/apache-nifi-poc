@@ -60,6 +60,7 @@ nifi/state/
 nifi/conf/*
 !nifi/conf/bootstrap.conf
 !nifi/conf/nifi.properties.template
+!nifi/conf/bootstrap-notification-services.xml
 
 # OS specific
 .DS_Store

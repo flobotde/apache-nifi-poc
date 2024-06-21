@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services>
+    <!-- 
+    <service>
+        <id>email-notification</id>
+        <class>org.apache.nifi.bootstrap.notification.email.EmailNotificationService</class>
+        <property name="SMTP Hostname"></property>
+        <property name="SMTP Port"></property>
+        <property name="SMTP Username"></property>
+        <property name="SMTP Password"></property>
+        <property name="SMTP TLS"></property>
+        <property name="From"></property>
+        <property name="To"></property>
+    </service>
+    -->
+    
+    <service>
+        <id>log-notification</id>
+        <class>org.apache.nifi.bootstrap.notification.http.HttpNotificationService</class>
+        <property name="URL">http://localhost:8080/notify</property>
+        <property name="Connection Timeout">10 secs</property>
+        <property name="Write Timeout">10 secs</property>
+    </service>
+</services>
