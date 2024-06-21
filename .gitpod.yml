@@ -1,8 +1,11 @@
 tasks:
   - init: docker-compose pull
     command: |
-      export NIFI_WEB_HTTPS_PORT=8443
-      export NIFI_WEB_HTTPS_HOST=$(gp url 8443 | cut -d'/' -f3)
+      # Erstelle .env-Datei aus Gitpod Secrets
+      echo "NIFI_WEB_HTTPS_PORT=${NIFI_WEB_HTTPS_PORT}" > .env
+      echo "NIFI_USERNAME=${NIFI_USERNAME}" >> .env
+      echo "NIFI_PASSWORD=${NIFI_PASSWORD}" >> .env
+      export NIFI_WEB_HTTPS_HOST=$(gp url ${NIFI_WEB_HTTPS_PORT} | cut -d'/' -f3)
       docker-compose up
 
 ports:
