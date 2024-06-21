@@ -4,18 +4,30 @@ tasks:
       sudo apt-get install -y gettext-base
       docker-compose pull
     command: |
+      mkdir -p nifi/logs nifi/content_repository nifi/database_repository nifi/flowfile_repository nifi/provenance_repository nifi/state
+      sudo chown -R 1000:1000 nifi
+      sudo chmod -R 755 nifi
       if [ ! -f .env ]; then
         cp .env.example .env
+        # Für Gitpod: Verwende Gitpod Secret Variables
+        if [ ! -z "$GITPOD_WORKSPACE_ID" ]; then
+          echo "NIFI_WEB_HTTPS_PORT=${NIFI_WEB_HTTPS_PORT}" >> .env
+          echo "NIFI_USERNAME=${NIFI_USERNAME}" >> .env
+          echo "NIFI_PASSWORD=${NIFI_PASSWORD}" >> .env
+          echo "NIFI_KEYSTORE_PASSWORD=${NIFI_KEYSTORE_PASSWORD}" >> .env
+          echo "NIFI_KEY_PASSWORD=${NIFI_KEY_PASSWORD}" >> .env
+          echo "NIFI_TRUSTSTORE_PASSWORD=${NIFI_TRUSTSTORE_PASSWORD}" >> .env
+        else
+          # Für lokale Entwicklung: Aufforderung zur manuellen Eingabe
+          echo "Bitte füllen Sie die .env-Datei mit den erforderlichen Werten aus."
+        fi
       fi
-      echo "NIFI_KEYSTORE_PASSWORD=${NIFI_KEYSTORE_PASSWORD}" >> .env
-      echo "NIFI_KEY_PASSWORD=${NIFI_KEY_PASSWORD}" >> .env
-      echo "NIFI_TRUSTSTORE_PASSWORD=${NIFI_TRUSTSTORE_PASSWORD}" >> .env
-      export NIFI_WEB_HTTPS_HOST=$(gp url ${NIFI_WEB_HTTPS_PORT} | cut -d'/' -f3)
+      if [ ! -z "$GITPOD_WORKSPACE_ID" ]; then
+        export NIFI_WEB_HTTPS_HOST=$(gp url ${NIFI_WEB_HTTPS_PORT} | cut -d'/' -f3)
+      else
+        export NIFI_WEB_HTTPS_HOST=localhost
+      fi
       envsubst < ./nifi/conf/nifi.properties.template > ./nifi/conf/nifi.properties
-      sudo chown -R 1000:1000 ./nifi
-      sudo chmod -R 755 ./nifi
-      sudo chown 1000:1000 ./nifi/conf/bootstrap.conf
-      sudo chmod 644 ./nifi/conf/bootstrap.conf
       docker-compose up
 
 ports:
