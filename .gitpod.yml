@@ -7,6 +7,8 @@ tasks:
       mkdir -p nifi/logs nifi/content_repository nifi/database_repository nifi/flowfile_repository nifi/provenance_repository nifi/state
       sudo chown -R 1000:1000 nifi
       sudo chmod -R 755 nifi
+      sudo chown 1000:1000 ./nifi/conf/nifi.properties
+      sudo chmod 644 ./nifi/conf/nifi.properties
       if [ ! -f .env ]; then
         cp .env.example .env
         # Für Gitpod: Verwende Gitpod Secret Variables
