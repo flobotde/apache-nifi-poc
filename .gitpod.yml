@@ -14,6 +14,8 @@ tasks:
       envsubst < ./nifi/conf/nifi.properties.template > ./nifi/conf/nifi.properties
       sudo chown -R 1000:1000 ./nifi
       sudo chmod -R 755 ./nifi
+      sudo chown 1000:1000 ./nifi/conf/bootstrap.conf
+      sudo chmod 644 ./nifi/conf/bootstrap.conf
       docker-compose up
 
 ports:

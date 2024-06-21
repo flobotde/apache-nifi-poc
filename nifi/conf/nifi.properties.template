@@ -1,33 +1,59 @@
-nifi.web.https.port=${NIFI_WEB_HTTPS_PORT}
-nifi.web.https.host=${NIFI_WEB_HTTPS_HOST}
-nifi.security.user.login.identity.provider=single-user-provider
-nifi.security.user.authorizer=single-user-authorizer
-
-# Core Properties
-nifi.flow.configuration.file=./conf/flow.xml.gz
-nifi.flowcontroller.autoResumeState=true
-nifi.flowcontroller.graceful.shutdown.period=10 sec
-nifi.flowservice.writedelay.interval=500 ms
-
 # Web Properties
-nifi.web.jetty.working.directory=./work/jetty
+nifi.web.https.host=${NIFI_WEB_HTTPS_HOST}
+nifi.web.https.port=${NIFI_WEB_HTTPS_PORT}
+nifi.web.max.threads=150
 
 # Security Properties
-nifi.security.keystore=./conf/keystore.jks
+nifi.security.keystore=/opt/nifi/nifi-current/conf/keystore.jks
 nifi.security.keystoreType=JKS
 nifi.security.keystorePasswd=${NIFI_KEYSTORE_PASSWORD}
 nifi.security.keyPasswd=${NIFI_KEY_PASSWORD}
-nifi.security.truststore=./conf/truststore.jks
+nifi.security.truststore=/opt/nifi/nifi-current/conf/truststore.jks
 nifi.security.truststoreType=JKS
 nifi.security.truststorePasswd=${NIFI_TRUSTSTORE_PASSWORD}
+nifi.security.user.authorizer=single-user-authorizer
+nifi.security.user.login.identity.provider=single-user-provider
+
+# Cluster Node Properties
+nifi.cluster.is.node=false
 
 # Content Repository Properties
 nifi.content.repository.implementation=org.apache.nifi.controller.repository.FileSystemRepository
-nifi.content.repository.directory.default=./content_repository
-
-# Component Status Repository Properties
-nifi.components.status.repository.implementation=org.apache.nifi.controller.status.history.VolatileComponentStatusRepository
+nifi.content.repository.directory.default=/opt/nifi/nifi-current/content_repository
+nifi.content.repository.archive.max.retention.period=12 hours
+nifi.content.repository.archive.max.usage.percentage=50%
+nifi.content.repository.archive.enabled=true
+nifi.content.repository.always.sync=false
+nifi.content.viewer.url=/nifi-content-viewer/
 
 # Provenance Repository Properties
 nifi.provenance.repository.implementation=org.apache.nifi.provenance.WriteAheadProvenanceRepository
-nifi.provenance.repository.directory.default=./provenance_repository
+nifi.provenance.repository.directory.default=/opt/nifi/nifi-current/provenance_repository
+nifi.provenance.repository.max.storage.time=24 hours
+nifi.provenance.repository.max.storage.size=1 GB
+nifi.provenance.repository.rollover.time=30 mins
+nifi.provenance.repository.rollover.size=100 MB
+
+# Component Status Repository Properties
+nifi.components.status.repository.implementation=org.apache.nifi.controller.status.history.VolatileComponentStatusRepository
+nifi.components.status.repository.buffer.size=1440
+nifi.components.status.snapshot.frequency=1 min
+
+# FlowFile Repository Properties
+nifi.flowfile.repository.implementation=org.apache.nifi.controller.repository.WriteAheadFlowFileRepository
+nifi.flowfile.repository.directory=/opt/nifi/nifi-current/flowfile_repository
+nifi.flowfile.repository.checkpoint.interval=2 mins
+nifi.flowfile.repository.always.sync=false
+
+# Site to Site Properties
+nifi.remote.input.secure=true
+nifi.remote.input.http.enabled=true
+nifi.remote.input.http.transaction.ttl=30 sec
+
+# Volatile Provenance Repository Properties
+nifi.provenance.repository.buffer.size=100000
+
+# Sensitive Properties Encryption
+nifi.sensitive.props.key=${NIFI_SENSITIVE_PROPS_KEY}
+nifi.sensitive.props.algorithm=PBEWITHMD5AND256BITAES-CBC-OPENSSL
+nifi.sensitive.props.provider=BC
