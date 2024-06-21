@@ -1,7 +1,14 @@
 tasks:
   - init: docker-compose pull
-    command: docker-compose up
+    command: |
+      export NIFI_WEB_HTTPS_PORT=8443
+      export NIFI_WEB_HTTPS_HOST=$(gp url 8443 | cut -d'/' -f3)
+      docker-compose up
 
 ports:
-  - port: 8080
-    onOpen: open-preview
+  - port: 8443
+    onOpen: open-browser
+
+vscode:
+  extensions:
+    - ms-azuretools.vscode-docker

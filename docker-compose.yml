@@ -1,11 +1,13 @@
-version: '3'
 services:
   nifi:
     image: apache/nifi:latest
     ports:
-      - "8080:8080"
+      - "8443:8443"
     environment:
-      - NIFI_WEB_HTTP_PORT=8080
+      - NIFI_WEB_HTTPS_PORT=8443
+      - NIFI_WEB_HTTPS_HOST=${NIFI_WEB_HTTPS_HOST}
+      - SINGLE_USER_CREDENTIALS_USERNAME=nifi
+      - SINGLE_USER_CREDENTIALS_PASSWORD=nifipassword
     volumes:
       - ./nifi/conf:/opt/nifi/nifi-current/conf
       - ./nifi/content_repository:/opt/nifi/nifi-current/content_repository

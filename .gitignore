@@ -60,3 +60,7 @@ nifi/state/
 # OS specific
 .DS_Store
 Thumbs.db
+
+# env
+.env
+.env.test
