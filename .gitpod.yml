@@ -7,8 +7,13 @@ tasks:
       if [ ! -f .env ]; then
         cp .env.example .env
       fi
+      echo "NIFI_KEYSTORE_PASSWORD=${NIFI_KEYSTORE_PASSWORD}" >> .env
+      echo "NIFI_KEY_PASSWORD=${NIFI_KEY_PASSWORD}" >> .env
+      echo "NIFI_TRUSTSTORE_PASSWORD=${NIFI_TRUSTSTORE_PASSWORD}" >> .env
       export NIFI_WEB_HTTPS_HOST=$(gp url ${NIFI_WEB_HTTPS_PORT} | cut -d'/' -f3)
       envsubst < ./nifi/conf/nifi.properties.template > ./nifi/conf/nifi.properties
+      sudo chown -R 1000:1000 ./nifi
+      sudo chmod -R 755 ./nifi
       docker-compose up
 
 ports:
