@@ -50,12 +50,16 @@ nbdist/
 .docker/
 
 # NiFi specific
-nifi/conf/
 nifi/content_repository/
 nifi/database_repository/
 nifi/flowfile_repository/
 nifi/provenance_repository/
 nifi/state/
+
+# Ignore specific files in nifi/conf/
+nifi/conf/login-identity-providers.xml
+nifi/conf/authorizers.xml
+nifi/conf/bootstrap.conf
 
 # OS specific
 .DS_Store
